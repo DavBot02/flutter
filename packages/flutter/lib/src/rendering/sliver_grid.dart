@@ -323,7 +323,7 @@ class SliverGridCustomTileLayout extends SliverGridLayout {
     return SliverGridGeometry(
       scrollOffset: (index ~/ crossAxisCount) * mainAxisStride * (index % 2 + 1),
       crossAxisOffset: _getOffsetFromStartInCrossAxis(crossAxisStart),
-      mainAxisExtent: childMainAxisExtent * (index % 2 + 1),
+      mainAxisExtent: double.infinity,
       crossAxisExtent: childCrossAxisExtent,
     );
   }
