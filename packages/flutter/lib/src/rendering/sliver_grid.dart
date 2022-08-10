@@ -234,6 +234,7 @@ abstract class SliverGridLayout {
     );
   }
 }
+>>>>>>> 1fb84ad0d3 (Initial skeleton)
 
 // TODO(DavBot02): YourStaggerLayout extends SliverGridLayout
 
