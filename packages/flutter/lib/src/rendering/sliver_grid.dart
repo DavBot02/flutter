@@ -232,6 +232,9 @@ abstract class SliverGridLayout {
       'A $layoutType requires computeScrollOffset to be '
       'implemented, returning the child index for the given scrollOffset.',
     );
+    // print(index);
+    // print(sliverGridGeometry);
+    return sliverGridGeometry;
   }
 }
 >>>>>>> 1fb84ad0d3 (Initial skeleton)
@@ -462,7 +465,6 @@ class SliverGridDelegateWithFixedCrossAxisCount extends SliverGridDelegate {
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
     assert(_debugAssertIsValid());
-    print(constraints.viewportMainAxisExtent);
     final double usableCrossAxisExtent = math.max(
       0.0,
       constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1),
@@ -472,9 +474,7 @@ class SliverGridDelegateWithFixedCrossAxisCount extends SliverGridDelegate {
     // TODO(DavBot02): choose based on layoutType
     return SliverGridRegularTileLayout(
       crossAxisCount: crossAxisCount,
-      mainAxisStride: childMainAxisExtent + mainAxisSpacing,
       crossAxisStride: childCrossAxisExtent + crossAxisSpacing,
-      childMainAxisExtent: childMainAxisExtent,
       childCrossAxisExtent: childCrossAxisExtent,
       reverseCrossAxis: axisDirectionIsReversed(constraints.crossAxisDirection),
       layoutType: layoutType,
