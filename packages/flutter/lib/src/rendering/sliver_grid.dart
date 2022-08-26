@@ -431,17 +431,14 @@ class SliverGridStaggerLayout extends SliverGridLayout {
         minScrollOffset = scrollOffset;
       }
     });
-    // print('$index, $nextColumn');
     return nextColumn;
   }
 
   ///
   @override
   bool reachedTargetScrollOffset(double targetOffset) {
-    print("targetOffset: $targetOffset");
-    bool flag = true;
+    bool flag = false;
     for (int column in _scrollOffsetForMainAxis.keys) {
-      print("$column: ${_scrollOffsetForMainAxis[column]!}");
       if (_scrollOffsetForMainAxis[column]! < targetOffset) {
         flag = false;
       }
@@ -468,8 +465,6 @@ class SliverGridStaggerLayout extends SliverGridLayout {
     _scrollOffsetForMainAxis[column] =
         childMainAxisExtent + _scrollOffsetForMainAxis[column]!;
 
-    // print("$index: ${(index ~/ crossAxisCount)}");
-    // print("$index: ${_scrollOffsetForMainAxis[column]!}");
     SliverGridGeometry sliverGridGeometry = SliverGridGeometry(
       scrollOffset:
           currentScrollOffset + _mainAxisCount[column]! * mainAxisSpacing,
@@ -480,8 +475,6 @@ class SliverGridStaggerLayout extends SliverGridLayout {
       crossAxisExtent: childCrossAxisExtent,
     );
     _mainAxisCount[column] = _mainAxisCount[column]! + 1;
-    // print(index);
-    // print(sliverGridGeometry);
     return sliverGridGeometry;
   }
 }
@@ -619,7 +612,6 @@ class SliverGridDelegateWithFixedCrossAxisCount extends SliverGridDelegate {
     final double childMainAxisExtent =
         mainAxisExtent ?? childCrossAxisExtent / childAspectRatio;
 
-    // print(constraints.axisDirection);
     // TODO(DavBot02): choose based on layoutType
 
     if (layoutType == SliverGridLayoutType.fixed) {
@@ -1333,7 +1325,7 @@ class RenderDynamicSliverGrid extends RenderSliverMultiBoxAdaptor {
       childParentData.layoutOffset = gridGeometry.scrollOffset;
       childParentData.crossAxisOffset = gridGeometry.crossAxisOffset;
       assert(childParentData.index == index);
-      endScrollOffset = childScrollOffset(child!)! + paintExtentOf(child!);
+      endScrollOffset = math.max(endScrollOffset, childScrollOffset(child!)! + paintExtentOf(child!));
       return true;
     }
 
@@ -1358,8 +1350,6 @@ class RenderDynamicSliverGrid extends RenderSliverMultiBoxAdaptor {
     }
 
     // Now find the first child that ends after our end.
-    // print(layout.reachedTargetScrollOffset(targetEndScrollOffset));
-    // print(endScrollOffset);
     while (endScrollOffset < targetEndScrollOffset ||
         !layout.reachedTargetScrollOffset(targetEndScrollOffset)) {
       if (!advance()) {
@@ -1367,7 +1357,6 @@ class RenderDynamicSliverGrid extends RenderSliverMultiBoxAdaptor {
         break;
       }
     }
-    print(endScrollOffset);
 
     // Finally count up all the remaining children and label them as garbage.
     if (child != null) {
